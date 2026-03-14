@@ -27,7 +27,7 @@ body::before {
 	width: 100%;
 	height: 100%;
 
-	background-image: url("images/background.jpg");
+	background-image: url("'mages/background.jpg");
 	background-size: cover;
 	background-position: center;
 
@@ -64,6 +64,11 @@ body::before {
 h1 {
 	font-size: 32px;
 	margin-bottom: 10px;
+}
+
+h2 {
+	font-size: 20px;
+	margin-bottom: 5px;
 }
 
 p {
@@ -142,39 +147,80 @@ p {
 
 /* PROJECTS */
 
-.projects {
-
-	margin-bottom: 40px;
-
+.carousel {
+	position: relative;
+	width: 100%;
+	max-width: 400px;
+	margin: auto;
+	overflow: hidden;
+	margin-bottom: 30px;
 }
 
-.gallery {
+.project-scroll {
 
 	display: flex;
 
-	gap: 15px;
+	overflow-x: auto;
+	scroll-behavior: smooth;
 
-	justify-content: center;
-
-	flex-wrap: wrap;
-
-}
-
-.project {
-
-	width: 110px;
+	scroll-snap-type: x mandatory;
 
 }
 
-.project img {
+.project-scroll::-webkit-scrollbar {
+	display: none;
+}
+
+.project-card {
+
+	flex: 0 0 100%;
+
+	scroll-snap-align: center;
+
+	padding: 20px;
+
+	background: rgba(255, 255, 255, 0.15);
+
+	border-radius: 12px;
+
+	backdrop-filter: blur(10px);
+
+	text-align: center;
+}
+
+.project-card img {
 
 	width: 100%;
+	height: 200px;
+
+	object-fit: cover;
 
 	border-radius: 10px;
 
-	margin-bottom: 5px;
-
 }
+
+.scroll-btn {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	background: rgba(0, 0, 0, 0.6);
+	border: none;
+	color: white;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	cursor: pointer;
+	z-index: 5;
+}
+
+.scroll-btn.left {
+	left: -10px;
+}
+
+.scroll-btn.right {
+	right: -10px;
+}
+
 
 /* CONTACT */
 

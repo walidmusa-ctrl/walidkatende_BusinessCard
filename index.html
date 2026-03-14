@@ -1,159 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Walid Katende</title>
-
-<link rel="stylesheet" href="style.css">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-</head>
-
-
-<body>
-
-<div class="container">
-
-<!-- PROFILE -->
-
-<div class="profile">
-
-<img src="images/profile.png" class="profile-img">
-
-<h1>Walid Katende</h1>
-
-<p>
-Mechanical Engineer passionate about innovative design, 
-structural analysis, and delivering practical engineering solutions.
-</p>
-
-</div>
-
-
-<!-- CONTACT LINKS -->
-
-<div class="card">
-
-<a class="btn" href="files/walid_katende_portfolio.pdf" target="_blank">
-<span>View Portfolio</span>
-<i class="fa-solid fa-gears"></i>
-</a>
-
-<a class="btn" href="files/walid_katende_cv.pdf" target="_blank">
-<span>View CV</span>
-<i class="fa-solid fa-file"></i>
-</a>
-
-<!--<a class="btn" href="https://wa.link/uifk2x" target="_blank">-->
-<!--<span>CV</span>-->
-<!--<i class="fa-solid fa-file"></i>-->
-<!--</a>-->
-
-<a class="btn" href="mailto:walidkats@gmail.com">
-<span>Send Email</span>
-<i class="fa-solid fa-envelope"></i>
-</a>
-
-<a class="btn" href="files/walidkatende.vcf">
-<span>Save To Contacts</span>
-<i class="fa-solid fa-user-plus"></i>
-</a>
-
-
-
-</div>
-
-<!-- FOOTER ICONS -->
-<div class="bottom-icons">
-  
-<a href=""><i class="fa-brands fa-facebook"></i></a>
-
-<a href="https://wa.me/905538353152"><i class="fa-brands fa-whatsapp"></i></a>
-
-<a href=""><i class="fa-brands fa-linkedin"></i></a>
-
-<!--<a href=""><i class="fa-brands fa-x-twitter"></i></a>-->
-
-<a href="https://walidkats.wixsite.com/walid-katende"><i class="fa-solid fa-globe"></i></a>
-
-</div>
-
-
-<!-- QR CODE -->
-<div class="qr">
-
-<h2>Scan Me</h2>
-
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&amp;data=https://walidkats.wixsite.com/walid-katende">
-
-</div>
-
-
-
-<!-- PROJECTS -->
-
-<!--<section class="projects">-->
-
-<!--<h2>Engineering Projects</h2>-->
-
-<!--<div class="gallery">-->
-
-<!--<div class="project">-->
-
-<!--<img src="projects/trailer.jpg">-->
-
-<!--<p>Low Bed Trailer Chassis Design</p>-->
-
-<!--</div>-->
-
-<!--<div class="project">-->
-
-<!--<img src="projects/grille.jpg">-->
-
-<!--<p>Retractable Security Grille Mechanism</p>-->
-
-<!--</div>-->
-
-<!--<div class="project">-->
-
-<!--<img src="projects/stand.jpg">-->
-
-<!--<p>Computer Stand With USB Ports</p>-->
-
-<!--</div>-->
-
-<!--</div>-->
-
-<!--</section>-->
-
-
-<!-- 
-CONTACT
-
-<section class="contact">
-
-<h2>Contact Me</h2>
-
-<form action="https://formspree.io/f/yourID" method="POST">
-
-<input type="text" name="name" placeholder="Your Name" required>
-
-<input type="email" name="email" placeholder="Your Email" required>
-
-<textarea name="message" placeholder="Your Message"></textarea>
-
-<button type="submit">Send Message</button>
-
-</form> 
-
-</section> -->
-
-</div>
-
-</body>
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Walid Katende</title>
+      <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet"
+         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+   </head>
+   <script>
+      function scrollProjects(direction){
+      
+      const container = document.getElementById("projectScroll")
+      
+      const width = container.clientWidth
+      
+      container.scrollBy({
+      left: direction * width,
+      behavior: "smooth"
+      })
+      
+      }
+      
+   </script>
+   <body>
+      <div class="container">
+         <!-- PROFILE -->
+         <div class="profile">
+            <img src="images/profile.png" class="profile-img">
+            <h1>Walid Katende</h1>
+            <p>
+               Mechanical Engineer passionate about innovative design, 
+               structural analysis, and delivering practical engineering solutions.
+            </p>
+         </div>
+         <!-- CONTACT LINKS -->
+         <div class="card">
+            <a class="btn" href="files/walid_katende_portfolio.pdf" target="_blank">
+            <span>View Portfolio</span>
+            <i class="fa-solid fa-gears"></i>
+            </a>
+            <a class="btn" href="files/walid_katende_cv.pdf" target="_blank">
+            <span>View CV</span>
+            <i class="fa-solid fa-file"></i>
+            </a>
+            <!--<a class="btn" href="https://wa.link/uifk2x" target="_blank">-->
+            <!--<span>CV</span>-->
+            <!--<i class="fa-solid fa-file"></i>-->
+            <!--</a>-->
+            <a class="btn" href="mailto:walidkats@gmail.com">
+            <span>Send Email</span>
+            <i class="fa-solid fa-envelope"></i>
+            </a>
+            <a class="btn" href="files/walidkatende.vcf">
+            <span>Save To Contacts</span>
+            <i class="fa-solid fa-user-plus"></i>
+            </a>
+         </div>
+         <!-- SOCIAL ICONS -->
+         <div class="bottom-icons">
+            <a href=""><i class="fa-brands fa-facebook"></i></a>
+            <a href="https://wa.me/905538353152"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href=""><i class="fa-brands fa-linkedin"></i></a>
+            <!--<a href=""><i class="fa-brands fa-x-twitter"></i></a>-->
+            <a href="https://walidkats.wixsite.com/walid-katende"><i class="fa-solid fa-globe"></i></a>
+         </div>
+         <!-- PROJECTS -->
+         <section id="projects" class="projects">
+            <h2>Sample Engineering Projects</h2>
+            <div class="carousel">
+               <button class="scroll-btn left" onclick="scrollProjects(-1)">
+               <i class="fa-solid fa-chevron-left"></i>
+               </button>
+               <div class="project-scroll" id="projectScroll">
+                  <div class="project-card">
+                     <img src="https://www.tigertruck.eu/wp-content/uploads/2024/07/medidas-camion-trailer-espanol-1-1.jpg">
+                     <p>Low Bed Trailer Chassis</p>
+                  </div>
+                  <div class="project-card">
+                     <img src="https://grilles.cross-guard.com/wp-content/uploads/sites/2/2020/10/Extendor-Elite-600x600-revised-banner.jpg">
+                     <p>Retractable Security Grille</p>
+                  </div>
+                  <div class="project-card">
+                     <img src="https://media.licdn.com/dms/image/v2/D5612AQGiylbsT6QWew/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1724334719073?e=2147483647&v=beta&t=nqNgBzaCWhPtwZEmfVm1hP0QCjSJ8TDCb7PjKm9Vju8">
+                     <p>Digital Business Card</p>
+                  </div>
+               </div>
+               <button class="scroll-btn right" onclick="scrollProjects(1)">
+               <i class="fa-solid fa-chevron-right"></i>
+               </button>
+            </div>
+         </section>
+         <!-- QR CODE -->
+         <div class="qr">
+            <h2>Scan Me</h2>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&amp;data=https://walidkats.wixsite.com/walid-katende">
+         </div>
+         <!-- 
+            CONTACT
+            
+            <section class="contact">
+            
+            <h2>Contact Me</h2>
+            
+            <form action="https://formspree.io/f/yourID" method="POST">
+            
+            <input type="text" name="name" placeholder="Your Name" required>
+            
+            <input type="email" name="email" placeholder="Your Email" required>
+            
+            <textarea name="message" placeholder="Your Message"></textarea>
+            
+            <button type="submit">Send Message</button>
+            
+            </form> 
+            
+            </section> -->
+      </div>
+   </body>
 </html>
