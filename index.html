@@ -1,128 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Walid Katende</title>
-      <link rel="stylesheet" href="style.css">
-      <link rel="stylesheet"
-         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-   </head>
-   <script>
-      function scrollProjects(direction){
-      
-      const container = document.getElementById("projectScroll")
-      
-      const width = container.clientWidth
-      
-      container.scrollBy({
-      left: direction * width,
-      behavior: "smooth"
-      })
-      
-      }
-      
-   </script>
-   <body>
-      <div class="container">
-         <!-- PROFILE -->
-         <div class="profile">
-            <img src="images/profile.png" class="profile-img">
-            <h1>Walid Katende</h1>
-            <p>
-               Mechanical Engineer passionate about innovative design, 
-               structural analysis, and delivering practical engineering solutions.
-            </p>
-         </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TapVibe - Digital Identity Platform</title>
 
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
 
-         <!-- PROJECTS -->
-         <section id="projects" class="projects">
-            <h2>Sample Engineering Projects</h2>
-            <div class="carousel">
-               <button class="scroll-btn left" onclick="scrollProjects(-1)">
-               <i class="fa-solid fa-chevron-left"></i>
-               </button>
-               <div class="project-scroll" id="projectScroll">
-                  <div class="project-card">
-                     <img src="images/30 ton Semi Trailer.png">
-                     <p>30 Ton Semi Trailer</p>
-                  </div>
-                  <div class="project-card">
-                     <img src="https://grilles.cross-guard.com/wp-content/uploads/sites/2/2020/10/Extendor-Elite-600x600-revised-banner.jpg">
-                     <p>Retractable Security Grille</p>
-                  </div>
-                  <div class="project-card">
-                     <img src="https://media.licdn.com/dms/image/v2/D5612AQGiylbsT6QWew/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1724334719073?e=2147483647&v=beta&t=nqNgBzaCWhPtwZEmfVm1hP0QCjSJ8TDCb7PjKm9Vju8">
-                     <p>Digital Business Card</p>
-                  </div>
-               </div>
-               <button class="scroll-btn right" onclick="scrollProjects(1)">
-               <i class="fa-solid fa-chevron-right"></i>
-               </button>
-            </div>
-         </section>
+<div id="loadingScreen" style="display: flex; flex-direction: column; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #111; z-index: 9999; transition: opacity 0.3s ease;">
+    <div class="spinner"></div>
+    <p style="color: #666; font-size: 13px; margin-top: 16px; font-family: Arial, sans-serif; letter-spacing: 0.5px; font-weight: 500;">Loading Profile...</p>
+</div>
 
-         <!-- CONTACT LINKS -->
-         <div class="card">
-            <a class="btn" href="files/walid_katende_portfolio.pdf" target="_blank">
-            <span>View Portfolio</span>
-            <i class="fa-solid fa-gears"></i>
+<div class="card" id="mainCardContainer" style="padding-bottom: 40px; opacity: 0; transform: translateY(8px); transition: opacity 0.4s ease, transform 0.4s ease;">
+
+    <div id="landingPageHome" style="display: none; text-align: center; padding: 20px 10px;">
+
+        <div style="width: 100%; max-width: 220px; height: 160px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; position: relative;">
+            <svg viewBox="0 0 200 160" width="100%" height="100%" style="overflow: visible;">
+                <rect x="75" y="10" width="70" height="130" rx="12" fill="#222222" stroke="#333333" stroke-width="2.5" />
+                <rect x="80" y="16" width="60" height="118" rx="8" fill="#161616" />
+                <rect x="100" y="21" width="20" height="5" rx="2.5" fill="#222222" />
+
+                <g style="transform: rotate(-15deg); transform-origin: 50px 85px;">
+                    <rect x="24" y="54" width="76" height="48" rx="5" fill="#000000" opacity="0.4" filter="blur(3px)" />
+                    <rect x="20" y="50" width="76" height="48" rx="5" fill="#2563eb" />
+                    <rect x="28" y="60" width="10" height="8" rx="1.5" fill="#3b82f6" opacity="0.8" />
+                    <line x1="44" y1="62" x2="64" y2="62" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" />
+                    <line x1="44" y1="67" x2="56" y2="67" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" />
+                    <circle cx="82" cy="84" r="4" fill="#ffffff" opacity="0.9" />
+                </g>
+
+                <path d="M 82 45 A 24 24 0 0 1 106 68" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" opacity="0.3" />
+                <path d="M 87 38 A 32 32 0 0 1 119 69" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" opacity="0.6" />
+                <path d="M 92 31 A 40 40 0 0 1 131 70" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" />
+            </svg>
+        </div>
+
+        <h1 style="font-size: 26px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px;">
+            TapVibe
+        </h1>
+
+        <p style="color: #aaa; font-size: 14px; line-height: 1.6; margin-bottom: 25px;">
+            Create your high-impact digital business card instantly. Share your portfolio, social networks, and custom contact vCards seamlessly with a single secure link or physical NFC card tap.
+        </p>
+
+        <hr style="border: 0; border-top: 1px solid #222; margin-bottom: 25px;">
+
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+            <a href="auth.html?tab=signup" style="background: #2563eb; color: white; padding: 14px; border-radius: 10px; font-weight: 600; font-size: 15px; text-decoration: none; display: flex; justify-content: center; align-items: center;">
+                Get Your Digital Card
             </a>
-            <a class="btn" href="files/walid_katende_cv.pdf" target="_blank">
-            <span>View CV</span>
-            <i class="fa-solid fa-file"></i>
+            <a href="auth.html?tab=login" style="background: #1a1a1a; color: #ccc; padding: 14px; border-radius: 10px; font-weight: 500; font-size: 15px; text-decoration: none; border: 1px solid #333; display: flex; justify-content: center; align-items: center;">
+                Sign In to Dashboard
             </a>
-            <!--<a class="btn" href="https://wa.link/uifk2x" target="_blank">-->
-            <!--<span>CV</span>-->
-            <!--<i class="fa-solid fa-file"></i>-->
-            <!--</a>-->
-            <a class="btn" href="mailto:walidkats@gmail.com">
-            <span>Send Email</span>
-            <i class="fa-solid fa-envelope"></i>
-            </a>
-            <a class="btn" href="files/walidkatende.vcf">
-            <span>Save To Contacts</span>
-            <i class="fa-solid fa-user-plus"></i>
-            </a>
-         </div>
-         <!-- SOCIAL ICONS -->
-         <div class="bottom-icons">
-            <a href=""><i class="fa-brands fa-facebook"></i></a>
-            <a href="https://wa.me/905538353152"><i class="fa-brands fa-whatsapp"></i></a>
-            <a href=""><i class="fa-brands fa-linkedin"></i></a>
-            <!--<a href=""><i class="fa-brands fa-x-twitter"></i></a>-->
-            <a href="https://walidkats.wixsite.com/walid-katende"><i class="fa-solid fa-globe"></i></a>
-         </div>
+        </div>
+    </div>
 
+    <a id="editBtn" class="gear-btn">
+        <i class="fa-solid fa-gear"></i>
+    </a>
 
-         <!-- QR CODE -->
-         <div class="qr">
-            <h2>Scan Me</h2>
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&amp;data=https://walidkats.wixsite.com/walid-katende">
-         </div>
-         <!-- 
+    <div class="header" id="profileHeader">
+        <img id="profileImage" src="" alt="Profile">
 
+        <div class="info">
+            <h1 id="name"></h1>
+            <p id="workplace"></p>
+            <h2 id="title"></h2>
+        </div>
+    </div>
 
-            CONTACT
-            
-            <section class="contact">
-            
-            <h2>Contact Me</h2>
-            
-            <form action="https://formspree.io/f/yourID" method="POST">
-            
-            <input type="text" name="name" placeholder="Your Name" required>
-            
-            <input type="email" name="email" placeholder="Your Email" required>
-            
-            <textarea name="message" placeholder="Your Message"></textarea>
-            
-            <button type="submit">Send Message</button>
-            
-            </form> 
-            
-            </section> -->
-      </div>
-   </body>
+    <p id="bio"></p>
+
+    <div id="socialLinks" class="social-row"></div>
+
+    <div id="contactLinks"></div>
+
+    <section id="projectsSection">
+        <h3>Projects</h3>
+        <div class="carousel">
+            <button class="scroll-btn left" onclick="scrollProjects(-1)">‹</button>
+            <div id="projectContainer"></div>
+            <button class="scroll-btn right" onclick="scrollProjects(1)">›</button>
+        </div>
+    </section>
+
+    <div style="position: absolute; bottom: 12px; left: 0; width: 100%; text-align: center; pointer-events: none;">
+        <p style="font-size: 11px; color: #444444; letter-spacing: 0.5px; margin: 0; font-weight: 500;">
+            made by <span style="color: #555555; font-weight: 600;">TapVibe</span>
+        </p>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
+</body>
 </html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Profile</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+<body id="editPageBody" style="display: none;">
+
+
+
+<div class="card">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h2 style="margin: 0; font-size: 28px; font-weight: 700;">Edit Profile</h2>
+
+        <button type="button" onclick="handleLogout()" class="logout-btn" style="background: #ef4444; color: white; padding: 10px 16px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-right-from-bracket"></i> Log Out
+        </button>
+    </div>
+
+    <div class="section">
+
+        <h3>Profile</h3>
+
+        <label>Profile Image</label>
+        <input type="file" id="imageInput">
+
+        <label>Workplace</label>
+        <input id="workplaceInput">
+
+        <label>Title</label>
+        <input id="titleInput">
+
+        <label>Bio</label>
+        <textarea id="bioInput"></textarea>
+
+    </div>
+
+
+    <div class="section">
+
+        <h3>Social Media</h3>
+
+        <div id="socialEditor"></div>
+
+    </div>
+
+
+    <div class="section">
+
+        <h3>Contact & Files</h3>
+
+        <div id="contactEditor"></div>
+
+    </div>
+
+
+    <div class="section">
+
+        <h3>Projects</h3>
+
+        <div id="projectsEditor"></div>
+
+        <button id="addProjectBtn" onclick="addProject()" class="save-btn">+ Add Project</button>
+
+    </div>
+
+
+    <p id="saveMessage" class="save-message"></p>
+
+    <div style="display: flex; gap: 12px; margin-top: 20px;">
+        <button onclick="cancelEdit()" class="save-btn" style="background: #333; margin-top: 0; flex: 1;">Cancel</button>
+        <button onclick="saveProfile()" class="save-btn" style="margin-top: 0; flex: 1;">Save Changes</button>
+    </div>
+
+    <div style="position: absolute; bottom: 12px; left: 0; width: 100%; text-align: center; pointer-events: none;">
+        <p style="font-size: 11px; color: #444444; letter-spacing: 0.5px; margin: 0; font-weight: 500;">
+            made by <span style="color: #555555; font-weight: 600;">TapVibe</span>
+        </p>
+    </div>
+
+</div>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="edit.js"></script>
+
+</body>
+</html>

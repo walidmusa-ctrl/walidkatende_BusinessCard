@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Business Card - Authentication</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --accent-color: #2563eb;
+            --text-color: #ffffff;
+            --text-muted: #a3a3a3;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .auth-container {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            margin-top: 0;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #333;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: var(--text-color);
+            border-bottom: 3px solid var(--accent-color);
+            margin-bottom: -2px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .input-icon {
+            position: relative;
+        }
+
+        .input-icon i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .input-icon input {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            background: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .input-icon input:focus {
+            border-color: var(--accent-color);
+            outline: none;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .auth-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        .message {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="auth-container">
+    <div class="tabs">
+        <div class="tab active" id="loginTab" onclick="switchTab('login')">Login</div>
+        <div class="tab" id="signupTab" onclick="switchTab('signup')">Sign Up</div>
+    </div>
+
+    <h2 id="authTitle">Welcome</h2>
+
+    <form id="authForm" onsubmit="handleAuth(event)">
+        <div class="form-group hidden" id="usernameGroup">
+            <label>Desired Username</label>
+            <div class="input-icon">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="usernameInput" placeholder="e.g., john-doe">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Email Address</label>
+            <div class="input-icon">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" id="emailInput" required placeholder="name@example.com">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <div class="input-icon">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="passwordInput" required placeholder="••••••••">
+            </div>
+        </div>
+
+        <button type="submit" class="auth-btn" id="submitBtn">Log In</button>
+        <p class="message" id="msgBox" style="color: #ef4444;"></p>
+
+        <p style="text-align: center; margin-top: 15px;">
+            <a href="javascript:void(0)" onclick="triggerPasswordRecovery()" style="color: #3b82f6; font-size: 14px; text-decoration: none;">
+                Forgot Password?
+            </a>
+        </p>
+    </form>
+</div>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="auth.js"></script>
+</body>
+</html>
