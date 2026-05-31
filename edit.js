@@ -14,7 +14,7 @@ if (window.supabase) {
 }
 
 const params = new URLSearchParams(window.location.search);
-const urlProfileId = params.get("id"); // Read unique ID parameter
+const urlProfileId = params.get("id");
 
 let profileData = {
     name: "",
@@ -31,14 +31,15 @@ const socialTypes = ["linkedin", "instagram", "twitter", "facebook", "youtube", 
 const contactTypes = ["phone", "email", "whatsapp", "website", "address", "portfolio", "cv", "contact"];
 
 let currentLoggedInUuid = null;
+let finalCroppedFileInstance = null;
 
 async function checkUserSession() {
     if (!dbClient) return;
 
     const { data: { session }, error } = await dbClient.auth.getSession();
 
+    // Alert blocks completely removed here - forwards instantly without interruptions
     if (error || !session) {
-        alert("Authentication required. Redirecting to login context...");
         window.location.href = "auth.html";
         return;
     }
@@ -46,7 +47,6 @@ async function checkUserSession() {
     currentLoggedInUuid = session.user.id;
 
     if (urlProfileId && urlProfileId !== currentLoggedInUuid) {
-        alert("Access Denied: You do not possess structural permissions to manage this profile parameter.");
         window.location.href = `edit.html?id=${currentLoggedInUuid}`;
         return;
     }
@@ -78,6 +78,11 @@ async function loadProfileData() {
         document.getElementById("titleInput").value = data.title || "";
         document.getElementById("bioInput").value = data.bio || "";
 
+        const previewCircle = document.getElementById("cropPreviewCircle");
+        if (previewCircle && data.profileImage) {
+            previewCircle.style.backgroundImage = `url('${data.profileImage}')`;
+        }
+
         buildSocialEditor();
         buildContactEditor();
         buildProjectsEditor();
@@ -95,10 +100,12 @@ function buildSocialEditor() {
 
         const item = document.createElement("div");
         item.className = "form-group";
-        item.style.marginBottom = "12px";
         item.innerHTML = `
-            <label style="text-transform: capitalize; margin-top: 8px;">${type}</label>
-            <input type="text" data-social="${type}" value="${val}" placeholder="Username or full URL mapping link">
+            <label style="text-transform: capitalize;">${type}</label>
+            <div class="input-icon">
+                <i class="fa-slate-icon fa-solid fa-link"></i>
+                <input type="text" data-social="${type}" value="${val}" placeholder="Username or full URL link">
+            </div>
         `;
         container.appendChild(item);
     });
@@ -120,18 +127,21 @@ function buildContactEditor() {
 
         const item = document.createElement("div");
         item.className = "form-group";
-        item.style.marginBottom = "12px";
 
-        // Check if field is file or text
         if (type === "cv" || type === "portfolio") {
             item.innerHTML = `
-                <label style="margin-top: 8px;">${labelText} (Current Link: ${val ? 'Attached ✓' : 'None'})</label>
-                <input type="file" onchange="handleFileUpload(event, '${type}')">
+                <label>${labelText} ${val ? '<span style="color: #00dfca; font-size: 11px; margin-left:6px;">(Attached ✓)</span>' : ''}</label>
+                <div class="file-upload-wrapper">
+                    <input type="file" onchange="handleFileUpload(event, '${type}')">
+                </div>
             `;
         } else {
             item.innerHTML = `
-                <label style="margin-top: 8px;">${labelText}</label>
-                <input type="text" data-contact="${type}" value="${val}" placeholder="Provide direct target input value data">
+                <label>${labelText}</label>
+                <div class="input-icon">
+                    <i class="fa-slate-icon fa-solid fa-pen-to-square"></i>
+                    <input type="text" data-contact="${type}" value="${val}" placeholder="Provide direct target input value">
+                </div>
             `;
         }
         container.appendChild(item);
@@ -146,24 +156,29 @@ function buildProjectsEditor() {
     projectsData.forEach((project, index) => {
         const item = document.createElement("div");
         item.className = "project-edit-item";
-        item.style.border = "1px solid #333";
-        item.style.padding = "15px";
-        item.style.borderRadius = "10px";
-        item.style.marginBottom = "15px";
-        item.style.background = "#161616";
+        item.style.border = "1px solid rgba(255, 255, 255, 0.06)";
+        item.style.padding = "16px";
+        item.style.borderRadius = "16px";
+        item.style.marginBottom = "16px";
+        item.style.background = "rgba(0, 0, 0, 0.2)";
 
         item.innerHTML = `
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
-                <span style="font-size:14px; font-weight:bold; color:#aaa;">Project #${index + 1}</span>
-                <button type="button" onclick="removeProject(${index})" style="background:none; border:none; color:#ef4444; cursor:pointer;"><i class="fa-solid fa-trash"></i> Delete</button>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+                <span style="font-size:13px; font-weight:600; color: #919eab;">Project #${index + 1}</span>
+                <button type="button" onclick="removeProject(${index})" style="background:none; border:none; color:#ef4444; cursor:pointer; font-size:13px; font-weight:500; display:flex; align-items:center; gap:4px;"><i class="fa-solid fa-trash-can"></i> Delete</button>
             </div>
-            <label style="margin-top:5px;">Project Title</label>
-            <input type="text" class="project-title-input" data-index="${index}" value="${project.title || ''}">
 
-            <label style="margin-top:10px;">Project Image</label>
-            <input type="file" onchange="uploadProjectImage(${index}, this)">
-            <div id="project-preview-wrapper-${index}">
-                ${project.image ? `<img src="${project.image}" style="width:100%; height:120px; object-fit:cover; border-radius:6px; margin-top:10px; border:1px solid #222;">` : ''}
+            <div class="form-group">
+                <label>Project Title</label>
+                <input type="text" class="project-title-input" data-index="${index}" value="${project.title || ''}" placeholder="e.g., Trailer Chassis Design">
+            </div>
+
+            <div class="form-group" style="margin-top: 12px;">
+                <label>Project Image Media File</label>
+                <input type="file" onchange="uploadProjectImage(${index}, this)">
+                <div id="project-preview-wrapper-${index}">
+                    ${project.image ? `<img src="${project.image}" style="width:100%; height:140px; object-fit:cover; border-radius:12px; margin-top:12px; border:1px solid rgba(255,255,255,0.08);">` : ''}
+                </div>
             </div>
         `;
         container.appendChild(item);
@@ -192,21 +207,20 @@ function syncProjectsDataTitles() {
     });
 }
 
-// FIXED: Now accurately directs profile images to your specific user folder inside 'files' bucket
-async function handleProfileImageUpload(e) {
-    const file = e.target.files[0];
+async function handleProfileImageUpload(readyFile) {
+    const file = readyFile;
     if (!file || !dbClient || !currentLoggedInUuid) return;
 
     const fileExt = file.name.split('.').pop();
     const fileName = `avatar-${Date.now()}.${fileExt}`;
-    const filePath = `${currentLoggedInUuid}/${fileName}`; // Dynamic User Folder Isolation
+    const filePath = `${currentLoggedInUuid}/${fileName}`;
 
     const { error: uploadError } = await dbClient.storage
         .from('files')
         .upload(filePath, file);
 
     if (uploadError) {
-        alert("Image deployment to server storage failed: " + uploadError.message);
+        console.error("Storage upload details failure log:", uploadError);
         return;
     }
 
@@ -215,17 +229,15 @@ async function handleProfileImageUpload(e) {
         .getPublicUrl(filePath);
 
     profileData.profileImage = publicUrl;
-    alert("Profile picture loaded successfully! Remember to save changes.");
 }
 
-// FIXED: Handles structural CV/Portfolio PDF or Doc uploads inside 'files' bucket
 async function handleFileUpload(e, type) {
     const file = e.target.files[0];
     if (!file || !dbClient || !currentLoggedInUuid) return;
 
     const fileExt = file.name.split('.').pop();
     const fileName = `${type}-${Date.now()}.${fileExt}`;
-    const filePath = `${currentLoggedInUuid}/${fileName}`; // Dynamic User Folder Isolation
+    const filePath = `${currentLoggedInUuid}/${fileName}`;
 
     const { error: uploadError } = await dbClient.storage
         .from('files')
@@ -240,14 +252,14 @@ async function handleFileUpload(e, type) {
         .from('files')
         .getPublicUrl(filePath);
 
-    // Remove old matching types if they exist, then append new clean cloud URL mapping reference
+    if (!profileData.links) profileData.links = [];
     profileData.links = profileData.links.filter(l => l.type !== type);
     profileData.links.push({ type: type, value: publicUrl });
 
     alert(`${type.toUpperCase()} uploaded successfully! Remember to save changes.`);
+    buildContactEditor();
 }
 
-// FIXED: Now accurately directs project images into 'files' bucket using user isolated folders
 async function uploadProjectImage(index, inputElement) {
     const file = inputElement.files[0];
     if (!file || !dbClient || !currentLoggedInUuid) return;
@@ -260,7 +272,7 @@ async function uploadProjectImage(index, inputElement) {
 
     const fileExt = file.name.split('.').pop();
     const fileName = `project-${index}-${Date.now()}.${fileExt}`;
-    const filePath = `${currentLoggedInUuid}/${fileName}`; // Dynamic User Folder Isolation
+    const filePath = `${currentLoggedInUuid}/${fileName}`;
 
     try {
         const { error: uploadError } = await dbClient.storage
@@ -284,7 +296,7 @@ async function uploadProjectImage(index, inputElement) {
 
         const wrapper = document.getElementById(`project-preview-wrapper-${index}`);
         if (wrapper) {
-            wrapper.innerHTML = `<img src="${publicUrl}" style="width:100%; height:120px; object-fit:cover; border-radius:6px; margin-top:10px; border:1px solid #222;">`;
+            wrapper.innerHTML = `<img src="${publicUrl}" style="width:100%; height:140px; object-fit:cover; border-radius:12px; margin-top:12px; border:1px solid rgba(255,255,255,0.08);">`;
         }
     } catch (err) {
         console.error("Upload handler operational exception error:", err);
@@ -296,15 +308,20 @@ async function saveProfile() {
 
     syncProjectsDataTitles();
 
+    if (finalCroppedFileInstance) {
+        await handleProfileImageUpload(finalCroppedFileInstance);
+    }
+
     profileData.workplace = document.getElementById("workplaceInput").value;
     profileData.title = document.getElementById("titleInput").value;
     profileData.bio = document.getElementById("bioInput").value;
 
     const dynamicLinksList = [];
 
-    // Keep already uploaded documents (cv/portfolio links)
-    const existingDocs = profileData.links.filter(l => l.type === "cv" || l.type === "portfolio");
-    dynamicLinksList.push(...existingDocs);
+    if (profileData.links) {
+        const existingDocs = profileData.links.filter(l => l.type === "cv" || l.type === "portfolio");
+        dynamicLinksList.push(...existingDocs);
+    }
 
     const socialInputs = document.querySelectorAll("[data-social]");
     socialInputs.forEach(input => {
@@ -375,7 +392,147 @@ async function handleLogout() {
     }
 }
 
-// Global scope window bindings
+function initCropperEngine() {
+    const imageInput = document.getElementById("imageInput");
+    const cropperModal = document.getElementById("cropperModal");
+    const cropCanvas = document.getElementById("cropCanvas");
+    if (!imageInput || !cropperModal || !cropCanvas) return;
+
+    const ctx = cropCanvas.getContext("2d");
+    const cancelCropBtn = document.getElementById("cancelCropBtn");
+    const confirmCropBtn = document.getElementById("confirmCropBtn");
+    const previewCircle = document.getElementById("cropPreviewCircle");
+
+    let sourceImage = new Image();
+    let cropBox = { x: 50, y: 50, size: 200 };
+    let isDragging = false;
+    let dragStart = { x: 0, y: 0 };
+    let originalFileName = "avatar.jpg";
+
+    imageInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        originalFileName = file.name;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            sourceImage.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+
+    sourceImage.onload = () => {
+        cropCanvas.width = 400;
+        cropCanvas.height = 400;
+        cropBox.size = 220;
+        cropBox.x = (cropCanvas.width - cropBox.size) / 2;
+        cropBox.y = (cropCanvas.height - cropBox.size) / 2;
+
+        cropperModal.style.display = "flex";
+        drawCanvas();
+    };
+
+    function drawCanvas() {
+        ctx.clearRect(0, 0, cropCanvas.width, cropCanvas.height);
+
+        const scale = Math.min(cropCanvas.width / sourceImage.width, cropCanvas.height / sourceImage.height);
+        const nw = sourceImage.width * scale;
+        const nh = sourceImage.height * scale;
+        const nx = (cropCanvas.width - nw) / 2;
+        const ny = (cropCanvas.height - nh) / 2;
+
+        ctx.drawImage(sourceImage, nx, ny, nw, nh);
+
+        ctx.fillStyle = "rgba(5, 7, 9, 0.65)";
+        ctx.fillRect(0, 0, cropCanvas.width, cropCanvas.height);
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(cropBox.x + cropBox.size / 2, cropBox.y + cropBox.size / 2, cropBox.size / 2, 0, Math.PI * 2);
+        ctx.clip();
+
+        ctx.drawImage(sourceImage, nx, ny, nw, nh);
+        ctx.restore();
+
+        ctx.strokeStyle = "#00dfca";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(cropBox.x, cropBox.y, cropBox.size, cropBox.size);
+    }
+
+    cropCanvas.addEventListener("mousedown", (e) => {
+        const rect = cropCanvas.getBoundingClientRect();
+        const mouseX = ((e.clientX - rect.left) / rect.width) * cropCanvas.width;
+        const mouseY = ((e.clientY - rect.top) / rect.height) * cropCanvas.height;
+
+        if (mouseX >= cropBox.x && mouseX <= cropBox.x + cropBox.size &&
+            mouseY >= cropBox.y && mouseY <= cropBox.y + cropBox.size) {
+            isDragging = true;
+            dragStart.x = mouseX - cropBox.x;
+            dragStart.y = mouseY - cropBox.y;
+        }
+    });
+
+    window.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        const rect = cropCanvas.getBoundingClientRect();
+        const mouseX = ((e.clientX - rect.left) / rect.width) * cropCanvas.width;
+        const mouseY = ((e.clientY - rect.top) / rect.height) * cropCanvas.height;
+
+        let newX = mouseX - dragStart.x;
+        let newY = mouseY - dragStart.y;
+
+        newX = Math.max(0, Math.min(newX, cropCanvas.width - cropBox.size));
+        newY = Math.max(0, Math.min(newY, cropCanvas.height - cropBox.size));
+
+        cropBox.x = newX;
+        cropBox.y = newY;
+        drawCanvas();
+    });
+
+    window.addEventListener("mouseup", () => {
+        isDragging = false;
+    });
+
+    cancelCropBtn.addEventListener("click", () => {
+        cropperModal.style.display = "none";
+        imageInput.value = "";
+    });
+
+    confirmCropBtn.addEventListener("click", () => {
+        const outputCanvas = document.createElement("canvas");
+        outputCanvas.width = 300;
+        outputCanvas.height = 300;
+        const oCtx = outputCanvas.getContext("2d");
+
+        const scale = Math.min(cropCanvas.width / sourceImage.width, cropCanvas.height / sourceImage.height);
+        const nw = sourceImage.width * scale;
+        const nh = sourceImage.height * scale;
+        const nx = (cropCanvas.width - nw) / 2;
+        const ny = (cropCanvas.height - nh) / 2;
+
+        const sourceCropX = (cropBox.x - nx) / scale;
+        const sourceCropY = (cropBox.y - ny) / scale;
+        const sourceCropSize = cropBox.size / scale;
+
+        oCtx.drawImage(
+            sourceImage,
+            sourceCropX, sourceCropY, sourceCropSize, sourceCropSize,
+            0, 0, 300, 300
+        );
+
+        outputCanvas.toBlob((blob) => {
+            if (!blob) return;
+            finalCroppedFileInstance = new File([blob], originalFileName, { type: "image/jpeg" });
+
+            const previewUrl = URL.createObjectURL(blob);
+            if (previewCircle) {
+                previewCircle.style.backgroundImage = `url('${previewUrl}')`;
+            }
+            cropperModal.style.display = "none";
+        }, "image/jpeg", 0.9);
+    });
+}
+
 window.addProject = addProject;
 window.removeProject = removeProject;
 window.saveProfile = saveProfile;
@@ -386,10 +543,11 @@ window.uploadProjectImage = uploadProjectImage;
 
 document.addEventListener("DOMContentLoaded", () => {
     const btn = document.getElementById("addProjectBtn");
-    if (btn) btn.addEventListener("click", addProject);
+    if (btn) {
+        btn.removeAttribute("onclick");
+        btn.addEventListener("click", addProject);
+    }
 
-    const imgInput = document.getElementById("imageInput");
-    if (imgInput) imgInput.addEventListener("change", handleProfileImageUpload);
-
+    initCropperEngine();
     checkUserSession();
 });
